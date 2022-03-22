@@ -1,0 +1,52 @@
+name: Deploy static content to Pages
+
+on:
+  push:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+      - name: Install dependencies
+        working-directory: ./docs
+        env:
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'https://docs.extrinsec.com' }}
+          AWS_LAYER_VERSIONS_URL: ${{ vars.AWS_LAYER_VERSIONS_URL || 'https://s3.amazonaws.com/prod-cdn.extrinsec.net/appdefender/aws-extension-versions.txt'}}
+        run: |
+          yarn install --immutable
+          yarn build
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'docs/build'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
