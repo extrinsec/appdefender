@@ -157,7 +157,7 @@ function Team() {
             <div class="col-demo" style={{fontSize: '16px', fontWeight: 400, color: '#767676'}}>
               When you add the extension as a layer to your Lambda, you must specify an ARN.
               Choose an ARN from the following table that corresponds with the AWS Region where you created the Lambda.
-              These ARNs are for Lambda functions developed for the <b>x86-64 platform</b>.
+              These ARNs are for Lambda functions developed for the <b>ARM64 platform</b>.
             </div>
             <table style={{marginTop: '24px'}}>
               <thead>
