@@ -56,11 +56,36 @@ function adaptArnToFriendlyRegionName(arn) {
   }
 }
 
+/**
+ * Determines if content is rendered either client-side or server-side
+ * @returns true (client-side) / false (server-side)
+ */
+function isClientSide() {
+  return typeof window !== "undefined"
+}
+
+/**
+ * Copies the id param value to the clipboard.  The id param value is the lambda ARN
+ * @param {string} id
+ */
+export function CopyARNToClipboard(arn) {
+  if (isClientSide()) {
+    // 1. write the ARN to the clipboard
+    // 2. display an alert indicating ARN was sucessfully copied
+    navigator.clipboard.writeText(arn).then(function(x) {
+      alert(`${arn} has been copied to your clipboard`);
+    });
+
+    return undefined;
+  }
+}
+
 function adaptArnToRowHTML(arn) {
   return `
     <tr>
       <td>${adaptArnToFriendlyRegionName(arn)}</td>
       <td>${arn}</td>
+      <td><button onClick=globalCopyARNToClipboard('${arn}') class="button button--outline button--info">copy</button></td>
     </tr>
   `
 }
@@ -92,10 +117,14 @@ function adaptARM64ToHTML(response) {
 }
 
 function Team() {
+  if (isClientSide()) {
+    window.globalCopyARNToClipboard = CopyARNToClipboard;
+  }
+
   fetch('https://s3.amazonaws.com/ci-cdn.extrinsec.net/appdefender/aws-extension-versions.txt')
     .then(response => response.text())
     .then(response => {
-      if (typeof window !== "undefined") {
+      if (isClientSide()) {
         document.getElementById('id-tbody-x86-64').innerHTML = adaptX86ToHTML(response);
         document.getElementById('id-tbody-arm64').innerHTML = adaptARM64ToHTML(response);
       };
@@ -113,15 +142,9 @@ function Team() {
           }}>
             AppDefender AWS Lambda Extension Versions
         </div>
-        <div class="row" style={{
-          marginTop: '20px',
-            justifyContent: 'left',
-            alignItems: 'top',
-            height: '30px',
-          }}>
-        </div>
+
         <div class="row">
-          <div class="col col--6">
+          <div class="col col--6" style={{marginTop: '48px'}}>
             <div>
               <h3>x86-64 Platform</h3>
             </div>
@@ -138,11 +161,12 @@ function Team() {
                 <tr>
                   <th>Region</th>
                   <th>ARN</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="id-tbody-x86-64">
                 <tr style={{height: '12px', textAlign: 'center'}}>
-                  <td colSpan={2}>
+                  <td colSpan={3}>
                   loading data...
                   </td>
                 </tr>
@@ -150,7 +174,7 @@ function Team() {
             </table>
           </div>
 
-          <div class="col col--6">
+          <div class="col col--6" style={{marginTop: '48px'}}>
             <div>
               <h3>ARM64 Platform</h3>
             </div>
@@ -167,11 +191,12 @@ function Team() {
                 <tr>
                   <th>Region</th>
                   <th>ARN</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="id-tbody-arm64">
                 <tr style={{height: '12px', textAlign: 'center'}}>
-                  <td colSpan={2}>
+                  <td colSpan={3}>
                   loading data...
                   </td>
                 </tr>
