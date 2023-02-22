@@ -1,9 +1,5 @@
-import React, { useEffect } from "react";
 import Layout from "@theme/Layout";
-import clsx from "clsx";
-// import styles from "./styles.module.css";
-const TITLE = "Team";
-const DESCRIPTION = "Awesome people working";
+import React from "react";
 
 function adaptArnToFriendlyRegionName(arn) {
   switch (true) {
@@ -87,7 +83,7 @@ function adaptARM64ToHTML(response) {
   let html = '';
 
   for (const row of rows) {
-    if (row.includes('arm64')) { // we have an x86 row. EX: arn:aws:lambda:ca-central-1:996975104561:layer:Extrinsec-Appdefender:8
+    if (row.includes('arm64')) { // we have an ARM64 row. EX: arn:aws:lambda:ca-central-1:996975104561:layer:Extrinsec-Appdefender-arm64:7
       html += adaptArnToRowHTML(row);
     }
   }
@@ -96,160 +92,96 @@ function adaptARM64ToHTML(response) {
 }
 
 function Team() {
-  // fetch('https://s3.amazonaws.com/ci-cdn.extrinsec.net/appdefender/aws-extension-versions.txt').then(response =>response.text().then(function (text) {
-  //   // do something with the text response
-  //   console.warn('stuff',text)
-  // }))
   fetch('https://s3.amazonaws.com/ci-cdn.extrinsec.net/appdefender/aws-extension-versions.txt')
-        .then(response => response.text())
-        .then(response => {
-          document.getElementById('id-tbody-x86-64').innerHTML = adaptX86ToHTML(response);
-          document.getElementById('id-tbody-arm64').innerHTML = adaptARM64ToHTML(response);
-        });
+    .then(response => response.text())
+    .then(response => {
+      if (typeof window !== "undefined") {
+        document.getElementById('id-tbody-x86-64').innerHTML = adaptX86ToHTML(response);
+        document.getElementById('id-tbody-arm64').innerHTML = adaptARM64ToHTML(response);
+      };
+  });
 
-        return (
-        <Layout title="AppDefender AWS Lambda Extension Versions" description="list of all AppDefender aws lambda extension versions for both x86/64 and arm64">
-          <div class="container">
-            <div class="row" style={{
-                justifyContent: 'center',
-                textAlign: 'center',
-                marginTop: '30px',
-                fontWeight: 300,
-                fontSize: '40px',
-              }}>
-                AppDefender AWS Lambda Extension Versions
+  return (
+    <Layout title="AppDefender AWS Lambda Extension Versions" description="list of all AppDefender aws lambda extension versions for both x86/64 and arm64">
+      <div class="container">
+        <div class="row" style={{
+            justifyContent: 'center',
+            textAlign: 'center',
+            marginTop: '30px',
+            fontWeight: 300,
+            fontSize: '40px',
+          }}>
+            AppDefender AWS Lambda Extension Versions
+        </div>
+        <div class="row" style={{
+          marginTop: '20px',
+            justifyContent: 'left',
+            alignItems: 'top',
+            height: '30px',
+          }}>
+        </div>
+        <div class="row">
+          <div class="col col--6">
+            <div>
+              <h3>x86-64 Platform</h3>
             </div>
-            <div class="row" style={{
-              marginTop: '20px',
-                // display: 'flex',
-                justifyContent: 'left',
-                alignItems: 'top',
-                height: '30px',
-              }}>
+            <div class="col-demo" style={{fontSize: '16px', fontWeight: 400, color: '#767676'}}>
+              When you add the extension as a layer to your Lambda, you must specify an ARN.
+              Choose an ARN from the following table that corresponds with the AWS Region where you created the Lambda.
+              These ARNs are for Lambda functions developed for the <b>x86-64 platform</b>.
             </div>
-            {/* <div class="row">
-              <div class="col col--12">
-                <div class="row-fun">
-                  <h3>x86-64 Platform</h3>
-                </div>
-              </div>
-            </div> */}
-
-            <div class="row">
-              <div class="col col--6">
-                <div>
-                  <h3>x86-64 Platform</h3>
-                </div>
-                <div class="col-demo" style={{fontSize: '16px', fontWeight: 400, color: '#767676'}}>
-                  When you add the extension as a layer to your Lambda, you must specify an ARN.
-                  Choose an ARN from the following table that corresponds with the AWS Region where you created the Lambda.
-                  These ARNs are for Lambda functions developed for the <b>x86-64 platform</b>.
-                </div>
-                <table style={{marginTop: '24px'}}>
-                  <thead>
-                    <tr>
-                      <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
-                    </tr>
-                    <tr>
-                      <th>Region</th>
-                      <th>ARN</th>
-                    </tr>
-                  </thead>
-                  <tbody id="id-tbody-x86-64">
-                    <tr style={{height: '12px', textAlign: 'center'}}>
-                      <td colSpan={2}>
-                      loading data...
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="col col--6">
-                <div>
-                  <h3>ARM64 Platform</h3>
-                </div>
-                <div class="col-demo" style={{fontSize: '16px', fontWeight: 400, color: '#767676'}}>
-                  When you add the extension as a layer to your Lambda, you must specify an ARN.
-                  Choose an ARN from the following table that corresponds with the AWS Region where you created the Lambda.
-                  These ARNs are for Lambda functions developed for the <b>x86-64 platform</b>.
-                </div>
-                <table style={{marginTop: '24px'}}>
-                  <thead>
-                    <tr>
-                      <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
-                    </tr>
-                    <tr>
-                      <th>Region</th>
-                      <th>ARN</th>
-                    </tr>
-                  </thead>
-                  <tbody id="id-tbody-arm64">
-                    <tr style={{height: '12px', textAlign: 'center'}}>
-                      <td colSpan={2}>
-                      loading data...
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col col--6">
-
-              </div>
-              <div class="col col--6">
-
-              </div>
-            </div>
-
-            {/* <div class="row">
-              <div class="col col--6">
-                <table style={{marginTop: '24px'}}>
-                  <thead>
-                    <tr>
-                      <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
-                    </tr>
-                    <tr>
-                      <th>Region</th>
-                      <th>ARN</th>
-                    </tr>
-                  </thead>
-                  <tbody id="id-tbody-x86-64">
-                    <tr style={{height: '12px', textAlign: 'center'}}>
-                      <td colSpan={2}>
-                      loading data...
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="col col--6">
-                <table style={{marginTop: '24px'}}>
-                  <thead>
-                    <tr>
-                      <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
-                    </tr>
-                    <tr>
-                      <th>Region</th>
-                      <th>ARN</th>
-                    </tr>
-                  </thead>
-                  <tbody id="id-tbody-arm64">
-                    <tr style={{height: '12px', textAlign: 'center'}}>
-                      <td colSpan={2}>
-                      loading data...
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div> */}
+            <table style={{marginTop: '24px'}}>
+              <thead>
+                <tr>
+                  <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
+                </tr>
+                <tr>
+                  <th>Region</th>
+                  <th>ARN</th>
+                </tr>
+              </thead>
+              <tbody id="id-tbody-x86-64">
+                <tr style={{height: '12px', textAlign: 'center'}}>
+                  <td colSpan={2}>
+                  loading data...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </Layout>)
 
+          <div class="col col--6">
+            <div>
+              <h3>ARM64 Platform</h3>
+            </div>
+            <div class="col-demo" style={{fontSize: '16px', fontWeight: 400, color: '#767676'}}>
+              When you add the extension as a layer to your Lambda, you must specify an ARN.
+              Choose an ARN from the following table that corresponds with the AWS Region where you created the Lambda.
+              These ARNs are for Lambda functions developed for the <b>x86-64 platform</b>.
+            </div>
+            <table style={{marginTop: '24px'}}>
+              <thead>
+                <tr>
+                  <th colSpan={3} style={{textAlign: 'left'}} >AppDefender Version 0.4.1</th>
+                </tr>
+                <tr>
+                  <th>Region</th>
+                  <th>ARN</th>
+                </tr>
+              </thead>
+              <tbody id="id-tbody-arm64">
+                <tr style={{height: '12px', textAlign: 'center'}}>
+                  <td colSpan={2}>
+                  loading data...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
 }
 
 export default Team;
