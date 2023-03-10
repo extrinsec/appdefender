@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-## Pre-requisites
+## Prerequisites
 
 1. a license key.  [Get one](../how-to-get-a-license-key) if you don't have one already.
 1. information about your Google Cloud function:
@@ -16,7 +16,7 @@ sidebar_position: 1
 
 ### Install and import library
 
-Import AppDefender as a dependency in your function/application based on your language, so GCF can download and install it during function deployment. Make sure to replace the version numbers below with the latest.  For local development, install the AppDefender packages from the public repositories for your runtime directly, e.g. `npm install @extrinsec/appdefender`
+Import AppDefender as a dependency in your serverless function/application based on your language, so GCF can download and install it during function deployment. Make sure to replace the version numbers below with the latest.  For local development, install the AppDefender packages from the public repositories for your runtime directly, e.g. `npm install @extrinsec/appdefender`
 
 #### Node.js
 

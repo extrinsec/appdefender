@@ -20,11 +20,9 @@ _This guide describes a quick and easy way to test out AppDefender on AWS Lambda
 1. see AppDefender in action in your CloudWatch logs or any logging service of your choice, e.g.
    ![AppDefender CloudWatch Logs](images/quick-start-logs.png "AppDefender CloudWatch Logs")
 
-
-
 #### Notes
 
 1. All you need to try AppDefender is a valid email address.  No additional information or credit card is required.
 1. Your temporary license key has some usage limitations (can be used for up to 3 applications and expires after 30 days).
-1. The publicly available policy group `observeAll.ability` allows you to see in your logs what AppDefender is able to protect against, e.g. outbound network traffic and subprocess creation.  But in order to customize for your environment and enable protection (deny certain traffic), you will need to register and create your own policies.
-1. If you have previously requested a temporary license key using your email address, please [register an account](https://www.extrinse.com/signup) to continue to use our service.
+1. The publicly available policy group `observeAll.ability` allows you to see in your logs what AppDefender is able to protect against, e.g. outbound network traffic and subprocess creation.  However, in order to customize for your environment and enable protection (deny certain traffic), you will need to register and create your own policies.
+1. If you have previously requested a temporary license key using your email address, then please [register an account](https://www.extrinsec.com/signup) to continue to use our service.

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-## Pre-requisites
+## Prerequisites
 
 1. a license key.  [Get one](../how-to-get-a-license-key) if you don't have one already.
 1. information about your DigitalOcean function:
