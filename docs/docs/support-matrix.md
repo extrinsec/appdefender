@@ -17,7 +17,6 @@ AppDefender currently only supports Linux based systems running on x86_64 and ar
 | |python3.8|Linux|✅|✅||
 | |python3.9|Linux|✅|✅||
 | |ruby2.7|Linux|✅|✅||
-| |.NET Core3.1|Linux|✅|✅|Deprecating|
 | |.NET6|Linux|✅|✅||
 | |java8|Linux|✅|✅| java8.al2 only|
 | |java11|Linux|✅|✅||
